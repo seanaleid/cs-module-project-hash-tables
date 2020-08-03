@@ -21,7 +21,8 @@ class HashTable:
     """
 
     def __init__(self, capacity):
-        # Your code here
+        self.capacity = capacity
+        self.store = [None] * capacity
 
 
     def get_num_slots(self):
@@ -65,7 +66,7 @@ class HashTable:
         # Your code here
         hash = 5381
         for c in key:
-            has = (hash * 33) + ord(c)
+            hash = (hash * 33) + ord(c)
         return hash
 
 
@@ -86,7 +87,9 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
+        index = self.hash_index(key)
+        self.store[index] = value
+        return self.store[index]
 
     def delete(self, key):
         """
@@ -97,6 +100,8 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        self.store[self.hash_index(key)] = None
+        return self.store
 
 
     def get(self, key):
@@ -108,6 +113,12 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        value = self.store[self.hash_index(key)]
+
+        if value is None:
+            return None
+        else:
+            return value
 
 
     def resize(self, new_capacity):
@@ -118,8 +129,6 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
-
 
 if __name__ == "__main__":
     ht = HashTable(8)
@@ -155,3 +164,8 @@ if __name__ == "__main__":
         print(ht.get(f"line_{i}"))
 
     print("")
+
+# value = "test"
+# hashed_value = HashTable(value)
+# print(hashed_value)
+# print(hashed_value.dbj2())
