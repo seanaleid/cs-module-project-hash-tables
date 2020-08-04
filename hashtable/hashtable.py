@@ -22,7 +22,9 @@ class HashTable:
 
     def __init__(self, capacity):
         self.capacity = capacity
+        self.head = None
         self.store = [None] * capacity
+        self.count = 0
 
 
     def get_num_slots(self):
@@ -36,6 +38,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        return len(self.store)
 
 
     def get_load_factor(self):
@@ -45,6 +48,8 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        loadFactor = count/self.get_num_slots
+        return loadFactor
 
 
     def fnv1(self, key):
@@ -55,6 +60,18 @@ class HashTable:
         """
 
         # Your code here
+        # FNV_offset_basis = 1469598103934665037
+        # FNV_prime = 1099511628211
+
+        # hashed_var = FNV_offset_basis
+
+        # string_bytes = key.encode()
+
+        # for b in string_bytes:
+        #     hashed_var = hashed_var * FNV_prime
+        #     hashed_var = hashed_var ^ b
+        
+        # return hashed_var
 
 
     def djb2(self, key):
@@ -75,7 +92,7 @@ class HashTable:
         Take an arbitrary key and return a valid integer index
         between within the storage capacity of the hash table.
         """
-        #return self.fnv1(key) % self.capacity
+        # return self.fnv1(key) % self.capacity
         return self.djb2(key) % self.capacity
 
     def put(self, key, value):
@@ -89,6 +106,7 @@ class HashTable:
         # Your code here
         index = self.hash_index(key)
         self.store[index] = value
+        self.count+=1
         return self.store[index]
 
     def delete(self, key):
@@ -101,6 +119,7 @@ class HashTable:
         """
         # Your code here
         self.store[self.hash_index(key)] = None
+        self.count-=1
         return self.store
 
 
