@@ -7,6 +7,8 @@ class HashTableEntry:
         self.value = value
         self.next = None
 
+    def __repr__(self):
+        return f"{self.key}, {self.value}"
 
 # Hash table can't have fewer than this many slots
 MIN_CAPACITY = 8
@@ -22,7 +24,6 @@ class HashTable:
 
     def __init__(self, capacity):
         self.capacity = capacity
-        self.head = None
         self.store = [None] * capacity
         self.count = 0
 
@@ -48,7 +49,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        loadFactor = count/self.get_num_slots
+        loadFactor = count / self.get_num_slots()
         return loadFactor
 
 
@@ -98,16 +99,35 @@ class HashTable:
     def put(self, key, value):
         """
         Store the value with the given key.
-
         Hash collisions should be handled with Linked List Chaining.
-
         Implement this.
         """
-        # Your code here
-        index = self.hash_index(key)
-        self.store[index] = value
+        # create the node
+        # entry = HashTableEntry(key, value)
+        # hash the kex for the hash table index
+        idx = self.hash_index(key)
+        # current = self.store[idx]
+
+        # new code to prevent collisions
+        if self.store[idx] is None:
+            # print("is there a val?", self.store)
+            # check at the index to see if it is None
+            # if yes --> insert the node with the key - value pair
+            self.store[idx] = HashTableEntry(key, value)
+            # print("put method new", self.store)
+            self.count+=1
+            return
+        curr = self.store[idx] 
+        self.store[idx] = HashTableEntry(key, value)
+        self.store[idx].next = curr
         self.count+=1
-        return self.store[index]
+
+        # Your code here
+        """ Day 1 code - no collisions - naive hash table"""
+        # index = self.hash_index(key)
+        # self.store[index] = value
+        # self.count+=1
+        # return self.store[index]
 
     def delete(self, key):
         """
@@ -118,26 +138,46 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        self.store[self.hash_index(key)] = None
-        self.count-=1
-        return self.store
+        idx = self.hash_index(key)
+        
+        if hash_entry.key is None:
+            print(f"None, return None", self.store)
+            return None
+        curr = self.store[idx]
+        
+
+        """ Day 1 - no collisions - naive hash table """
+        # self.store[self.hash_index(key)] = None
+        # self.count-=1
+        # return self.store
 
 
     def get(self, key):
         """
         Retrieve the value stored with the given key.
-
         Returns None if the key is not found.
-
         Implement this.
         """
         # Your code here
-        value = self.store[self.hash_index(key)]
+        # print(f"get method", self.store)
+        idx = self.hash_index(key)
+        hash_entry = self.store[idx]
 
-        if value is None:
-            return None
-        else:
-            return value
+        while hash_entry is not None:
+            # check to see if the values match
+            if hash_entry.key == key:
+                return hash_entry.value
+            hash_entry = hash_entry.next
+        return None
+
+
+        """ Day 1 code - no collisions - naive hash table"""
+        # value = self.store[self.hash_index(key)]
+
+        # if value is None:
+        #     return None
+        # else:
+        #     return value.value
 
 
     def resize(self, new_capacity):
