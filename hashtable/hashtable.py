@@ -49,7 +49,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        loadFactor = count / self.get_num_slots()
+        loadFactor = self.count / self.get_num_slots()
         return loadFactor
 
 
@@ -139,37 +139,24 @@ class HashTable:
         """
         # Your code here
         idx = self.hash_index(key)
-        node = self.store[idx]
         
-        if node.key is None:
-            print(f"None, return None", self.store)
-            return None
-        
-        elif node.next is None:
-            deleted_value = node.value
-            self.store[idx] = None
-            self.count-=1
-            return deleted_value
-        
+        if self.store[idx] is not None:
+            snapshot = self.store[idx]
+
+            while snapshot is not None:
+                if snapshot.key == key:
+                    self.store[idx] = snapshot.next
+                    snapshot.next = None
+                    self.count-=1
+                    return snapshot.value
+                else:
+                    snapshot = snapshot.next
+            print(f"Nothing found at key: {key}")
         else:
-            curr_node = node
-            prev = None
+            print(f"Nothing found at key: {key}")
 
-            while curr_node.key != key and node.next is not None:
-                prev = curr_node
-                curr_node = curr_node.next
-            
-            if curr_node.key == key:
-                prev.next = curr_node.next
-                deleted_value = curr_node.value
-                curr_node = None
-                self.count -=1
-                return deleted_node
-            
-            else:
-                return None
+
         
-
         """ Day 1 - no collisions - naive hash table """
         # self.store[self.hash_index(key)] = None
         # self.count-=1
@@ -212,6 +199,22 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        if self.get_load_factor() > 0.7:
+            if new_capacity < self.capacity * 2:
+                new_capacity = self.capacity * 2
+            
+            new_store = [None] * new_capacity
+            old_store = self.store
+
+            self.capacity = new_capacity
+            self.store = new_store
+
+            for element in old_store:
+                if element is not None:
+                    node = element
+                    while node is not None:
+                        self.put(node.key, node.value)
+                        node = node.next
 
 if __name__ == "__main__":
     ht = HashTable(8)
