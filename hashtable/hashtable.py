@@ -139,11 +139,35 @@ class HashTable:
         """
         # Your code here
         idx = self.hash_index(key)
+        node = self.store[idx]
         
-        if hash_entry.key is None:
+        if node.key is None:
             print(f"None, return None", self.store)
             return None
-        curr = self.store[idx]
+        
+        elif node.next is None:
+            deleted_value = node.value
+            self.store[idx] = None
+            self.count-=1
+            return deleted_value
+        
+        else:
+            curr_node = node
+            prev = None
+
+            while curr_node.key != key and node.next is not None:
+                prev = curr_node
+                curr_node = curr_node.next
+            
+            if curr_node.key == key:
+                prev.next = curr_node.next
+                deleted_value = curr_node.value
+                curr_node = None
+                self.count -=1
+                return deleted_node
+            
+            else:
+                return None
         
 
         """ Day 1 - no collisions - naive hash table """
