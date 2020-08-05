@@ -137,24 +137,70 @@ class HashTable:
 
         Implement this.
         """
-        # Your code here
         idx = self.hash_index(key)
-        
-        if self.store[idx] is not None:
-            snapshot = self.store[idx]
+        prev = None
+        curr = self.store[idx]
 
-            while snapshot is not None:
-                if snapshot.key == key:
-                    self.store[idx] = snapshot.next
-                    snapshot.next = None
-                    self.count-=1
-                    return snapshot.value
+        if curr is not None:
+            while curr.key != key and curr is not None:
+                prev = curr
+                curr = curr.next
+            if curr.key == key:
+                if prev is not None:
+                    prev.next = curr.next
                 else:
-                    snapshot = snapshot.next
-            print(f"Nothing found at key: {key}")
+                    self.store[idx] = curr.next
+            else:
+                print(f'Not found')
         else:
-            print(f"Nothing found at key: {key}")
+            print(f'Not found')
+        self.get_load_factor()
 
+        # idx = self.hash_index(key)
+
+        # if self.store[idx] is None:
+        #     return None
+        
+        # elif self.store[idx].next is None:
+        #     deletedVal = self.store[idx].value
+        #     self.store[idx] = None
+        #     self.count-=1
+        #     return deletedVal
+        
+        # else:
+        #     node = self.store[idx]
+        #     prev = None
+
+        #     while node.key != key and node.next is not None:
+        #         prev = node
+        #         node = node.next
+
+        #     if node.key == key:
+        #         prev.next = node.next
+        #         deletedVal = node.value
+        #         node = None
+        #         self.count-=1
+        #         return deletedVal
+        #     else:
+        #         return None
+
+        # Your code here
+        # idx = self.hash_index(key)
+        
+        # if self.store[idx] is None:
+        #     snapshot = self.store[idx]
+
+        #     while snapshot is not None:
+        #         if snapshot.key == key:
+        #             self.store[idx] = snapshot.next
+        #             snapshot.next = None
+        #             self.count-=1
+        #             return snapshot.value
+        #         else:
+        #             snapshot = snapshot.next
+        #     print(f"Nothing found at key: {key}")
+        # else:
+        #     print(f"Nothing found at key: {key}")
 
         
         """ Day 1 - no collisions - naive hash table """
