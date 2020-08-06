@@ -3,9 +3,13 @@ def word_count(s):
     char_list = ' " : ; , . - + = / \ | [ ] { } ( ) * ^ & '
     
     newStr = s.lower().split()
-    newArr = []
-    for el in newStr:
-        newArr.append(el.strip(char_list))
+    # refactored for a list comprehension
+    newArr = [el.strip(char_list) for el in newStr]
+
+    # OLD WAY - for loop
+    # newArr = []
+    # for el in newStr:
+    #     newArr.append(el.strip(char_list))
     
     if s == "" or newArr == [""]:
         return {}
