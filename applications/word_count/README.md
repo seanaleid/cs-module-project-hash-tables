@@ -16,7 +16,7 @@ It returns a dictionary of words and their counts:
 {'hello': 2, 'my': 2, 'cat': 2, 'and': 1, "doesn't": 1, 'say': 1, 'back': 1}
 ```
 
-Case should be ignored. Output keys must be lowercase.
+X Case should be ignored. Output keys must be lowercase.
 
 Key order in the dictionary doesn't matter.
 
@@ -29,3 +29,18 @@ Ignore each of the following characters:
 ```
 
 If the input contains no ignored characters, return an empty dictionary.
+
+# Your code here
+    # set up an array of ignored characters
+        # split the string on white spaces
+        # turn everything to lowercase
+    # set up an empty dictionary to add to
+    # remove all white space form the str passed in 
+    # replace method, replace tabs and spaces, \r\t\n
+    # .strip() method
+
+    # loop over the words and check for the ignored characters
+        # if no ignored chracters return an empty dictionary
+        # else move on
+            # count method to count how many times that word shows up
+            # add into the dictionary

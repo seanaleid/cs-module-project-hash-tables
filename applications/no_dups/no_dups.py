@@ -1,6 +1,11 @@
 def no_dups(s):
     # Your code here
-
+    # split the string
+    # iterate over the string and check for words
+    # first instance, put into a dictionary
+        # .join()
+        # 'word1 ', 'word2 ', 'word3 ' --> removes the spaces after the words
+        # " ".join() --> list comprehension 
 
 
 if __name__ == "__main__":
