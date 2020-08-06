@@ -6,6 +6,15 @@ def no_dups(s):
         # .join()
         # 'word1 ', 'word2 ', 'word3 ' --> removes the spaces after the words
         # " ".join() --> list comprehension 
+    newStr = s.split(' ')
+    newArr = []
+    for word in newStr:
+        if word in newArr:
+            pass
+        elif newStr.count(word) >= 1:
+            newArr.append(word)
+    finalStr = ' '.join([str(el) for el in newArr])
+    return finalStr
 
 
 if __name__ == "__main__":
