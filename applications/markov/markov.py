@@ -49,28 +49,29 @@ for key in dataset.keys():
     if key[0].isupper() or len(key) > 1 and key[1].isupper():
         start_words.append(key)
 
-word = random.choice(start_words)
-
-stopped = False
-count = 0
-stop_signs = "?.!"
 
 
-while count <= 5:
-    while not stopped:
-        # print the word
-        print(word, end=' ')
-
-        # if it's a stop word, stop
-        if word[-1] is stop_signs or len(word) > 1 and word[-2] in stop_signs:
-            stopped = True
+def five_sentences():
+    word = random.choice(start_words)
+    count = 0
+    stop_signs = "?.!"
+    while count < 5:
+        count+=1
+        stopped = False
+        while not stopped:
+            # print the word
+            print(word, end=' ')
+            
+            # if it's a stop word, stop
+            if word[-1] is stop_signs or len(word) > 1 and word[-2] in stop_signs:
+                stopped = True
+            
+            # choose a random following word
+            following_words = dataset[word]
+            word = random.choice(following_words)
         
-        # choose a random following word
-        following_words = dataset[word]
-        word = random.choice(following_words)
-    
 
-
+print(five_sentences())
 # TODO: construct 5 random sentences
 # Your code here
 
