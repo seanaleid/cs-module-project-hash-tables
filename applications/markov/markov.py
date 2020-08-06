@@ -1,82 +1,76 @@
 import random
-import json 
+
+# UPER
+    # Understand 
+    # Plan
+        # 1. Read the file `input.txt` and split it into words.
+            # Already read in
+            # Split into words
+        # 2. Analyze the text, building up the dataset of which words can follow a word.
+            # Which words can follow a word? any word that actually follows a word
+                # any word at index + 1
+            # How can we build the data set?
+                # Use a hashtable 
+                    # good way to realate one piece of info, with other info, relational
+                    # frequent lookups
+                    # Key: word, value list of all hte words that cna follow this word
+        # 3. Choose a random "start word" to begin.
+            # What is a "start word"?
+                # starts with first or second character is a capitalized  
+            # Make a list of start words
+        # 4. Loop over, print choose a random following word, if it's a stop word, stop
+            # Ends with a period, question mark, or exclamation mark or the second to last character is .?!
+    # Execute 
+    # Reflect 
+
 # Read in all the words in one go
-# Store them to a variable 
 with open("input.txt") as f:
-    words = f.read()
+    words = f.read().split()
 
-# the text is STORED in variable that we can read in the terminal
 # print(words)
-
-# SPLIT the data into keys 
-corpus = words.split()
-# prints a list of words
-# print(corpus)
-# CREATE pairs to keys
-def make_pairs(corpus):
-    for i in range(len(corpus)-1):
-        yield(corpus[i], corpus[i+1])
-pairs = make_pairs(corpus)
-
 # TODO: analyze which words can follow other words
-# Your code here
+dataset = {}
 
-# APPEND to a dictionary
-word_dict = {}
+for i in range(len(words) -1):
+    word = words[i]
+    next_word = words[i+1]
 
-for word_1, word_2 in pairs:
-    if word_1 in word_dict.keys():
-        word_dict[word_1].append(word_2)
+    if word not in dataset:
+        dataset[word] = [next_word]
     else:
-        word_dict[word_1] = [word_2]
+        dataset[word].append(next_word)
 
-def five_sentences():
-    first_word = random.choice(corpus)
-    markov = ' '
+# make a list of start words
+# If the 1st or 2nd character is capitalized, put into a list
+# Loop over words and put any start word into a list
+# You can add a .keys() to your HashTable class
+start_words = []
+for key in dataset.keys():
+    if key[0].isupper() or len(key) > 1 and key[1].isupper():
+        start_words.append(key)
+
+word = random.choice(start_words)
+
+stopped = False
+count = 0
+stop_signs = "?.!"
+
+
+while count <= 5:
+    while not stopped:
+        # print the word
+        print(word, end=' ')
+
+        # if it's a stop word, stop
+        if word[-1] is stop_signs or len(word) > 1 and word[-2] in stop_signs:
+            stopped = True
+        
+        # choose a random following word
+        following_words = dataset[word]
+        word = random.choice(following_words)
     
 
-    while first_word.islower():
-        first_word = random.choice(corpus)
 
-        chain = [first_word]
-
-        n_words = 100
-
-        for i in range(n_words):
-            chain.append(random.choice(word_dict[chain[-1]]))
-    return markov.join(chain)
-
-print(five_sentences())
 # TODO: construct 5 random sentences
 # Your code here
-
-# SHOW the dictionary of keys and tokens (values, list of words that can follow the keys)
-# print(word_dict)
-# OPTION 1 to print a dictionary 
-# need json.dumps(dictionary name, indent=amount of spaces, sort_keys=alphabetically, throws an error if a mix of nums and strs)
-# print(json.dumps(word_dict, indent=4, sort_keys=True))
-
-
-# def five_sentences():
-#     first_word = random.choice(corpus)
-#     markov = ' '
-#     end = ' . ? ! '
-#     count = 0
-
-#     while first_word.islower() and count < 5:
-#         chain = [first_word]
-#         chain.append(random.choice(word_dict[chain[-1]]))
-#         count+=1
-        # first_word = random.choice(corpus)
-
-        # chain = [first_word]
-
-        # n_words = 100
-
-        # for i in range(n_words):
-        #     chain.append(random.choice(word_dict[chain[-1]]))
-    # return markov.join(chain)
-    # return chain
-
-
 
